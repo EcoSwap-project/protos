@@ -1,0 +1,157 @@
+syntax = "proto3";
+
+package eco;
+
+import "google/protobuf/empty.proto";
+
+// Ro'yxatdan o'tish
+message RegisterRequest {
+    string username = 1;
+    string email = 2;
+    string password = 3;
+    string full_name = 4;
+}
+
+message RegisterResponse {
+    string id = 1;
+    string username = 2;
+    string email = 3;
+    string full_name = 4;
+    string created_at = 5;
+}
+
+// Tizimga kirish
+message LoginRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message LoginResponse {
+    string access_token = 1;
+    string refresh_token = 2;
+    int32 expires_in = 3;
+}
+
+// Profilni ko'rish
+message ProfileResponse {
+    string id = 1;
+    string username = 2;
+    string email = 3;
+    string full_name = 4;
+    int32 eco_points = 5;
+    string created_at = 6;
+    string updated_at = 7;
+}
+
+// Profilni tahrirlash
+message EditProfileRequest {
+    string full_name = 1;
+    string bio = 2;
+}
+
+message EditProfileResponse {
+    string id = 1;
+    string username = 2;
+    string email = 3;
+    string full_name = 4;
+    string bio = 5;
+    string updated_at = 6;
+}
+
+// Foydalanuvchilar ro'yxatini olish
+message User {
+    string id = 1;
+    string username = 2;
+    string full_name = 3;
+    int32 eco_points = 4;
+}
+
+message UsersListResponse {
+    repeated User users = 1;
+    int32 total = 2;
+    int32 page = 3;
+    int32 limit = 4;
+}
+
+// Foydalanuvchini o'chirish
+message DeleteUserResponse {
+    string message = 1;
+}
+
+// Parolni tiklash
+message ResetPasswordRequest {
+    string email = 1;
+}
+
+message ResetPasswordResponse {
+    string message = 1;
+}
+
+// Tokenni yangilash
+message RefreshTokenRequest {
+    string refresh_token = 1;
+}
+
+message RefreshTokenResponse {
+    string access_token = 1;
+    string refresh_token = 2;
+    int32 expires_in = 3;
+}
+
+// Tokenni bekor qilish
+message LogoutResponse {
+    string message = 1;
+}
+
+// Eco-points balansini ko'rish
+message EcoPointsResponse {
+    string user_id = 1;
+    int32 eco_points = 2;
+    string last_updated = 3;
+}
+
+// Eco-points qo'shish
+message AddEcoPointsRequest {
+    int32 points = 1;
+    string reason = 2;
+}
+
+message AddEcoPointsResponse {
+    string user_id = 1;
+    int32 eco_points = 2;
+    int32 added_points = 3;
+    string reason = 4;
+    string timestamp = 5;
+}
+
+// Eco-points tarixini ko'rish
+message EcoPointsHistoryItem {
+    string id = 1;
+    int32 points = 2;
+    string type = 3;
+    string reason = 4;
+    string timestamp = 5;
+}
+
+message EcoPointsHistoryResponse {
+    repeated EcoPointsHistoryItem history = 1;
+    int32 total = 2;
+    int32 page = 3;
+    int32 limit = 4;
+}
+
+// Xizmatlar (services)
+service EcoService {
+    rpc Register (RegisterRequest) returns (RegisterResponse);
+    rpc Login (LoginRequest) returns (LoginResponse);
+    rpc GetProfile (google.protobuf.Empty) returns (ProfileResponse);
+    rpc EditProfile (EditProfileRequest) returns (EditProfileResponse);
+    rpc ListUsers (google.protobuf.Empty) returns (UsersListResponse);
+    rpc DeleteUser (google.protobuf.Empty) returns (DeleteUserResponse);
+    rpc ResetPassword (ResetPasswordRequest) returns (ResetPasswordResponse);
+    rpc RefreshToken (RefreshTokenRequest) returns (RefreshTokenResponse);
+    rpc Logout (google.protobuf.Empty) returns (LogoutResponse);
+    rpc GetEcoPoints (google.protobuf.Empty) returns (EcoPointsResponse);
+    rpc AddEcoPoints (AddEcoPointsRequest) returns (AddEcoPointsResponse);
+    rpc GetEcoPointsHistory (google.protobuf.Empty) returns (EcoPointsHistoryResponse);
+}
