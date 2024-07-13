@@ -4,23 +4,22 @@ option go_package = "genproto/authentication_service";
 
 package auth_service;
 
-import "google/protobuf/empty.proto";
 
 
 // Xizmatlar (services)
 service EcoService {
     rpc Register (RegisterRequest) returns (RegisterResponse);
     rpc Login (LoginRequest) returns (LoginResponse);
-    rpc GetProfile (google.protobuf.Empty) returns (ProfileResponse);
+    rpc GetProfile (ProfilRequest) returns (ProfileResponse);
     rpc EditProfile (EditProfileRequest) returns (EditProfileResponse);
-    rpc ListUsers (google.protobuf.Empty) returns (UsersListResponse);
-    rpc DeleteUser (google.protobuf.Empty) returns (DeleteUserResponse);
+    rpc ListUsers (UsersListRequest) returns (UsersListResponse);
+    rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse);
     rpc ResetPassword (ResetPasswordRequest) returns (ResetPasswordResponse);
     rpc RefreshToken (RefreshTokenRequest) returns (RefreshTokenResponse);
-    rpc Logout (google.protobuf.Empty) returns (LogoutResponse);
-    rpc GetEcoPoints (google.protobuf.Empty) returns (EcoPointsResponse);
+    rpc Logout (LogoutRequest) returns (LogoutResponse);
+    rpc GetEcoPoints (EcoPointsRequest) returns (EcoPointsResponse);
     rpc AddEcoPoints (AddEcoPointsRequest) returns (AddEcoPointsResponse);
-    rpc GetEcoPointsHistory (google.protobuf.Empty) returns (EcoPointsHistoryResponse);
+    rpc GetEcoPointsHistory (GetEcoPointsHistoryRequest) returns (EcoPointsHistoryResponse);
 }
 
 
@@ -50,10 +49,13 @@ message LoginRequest {
 message LoginResponse {
     string access_token = 1;
     string refresh_token = 2;
-    int32 expires_in = 3;
 }
 
 // Profilni ko'rish
+message ProfilRequest{
+    string id = 1;
+}
+
 message ProfileResponse {
     string id = 1;
     string username = 2;
@@ -63,6 +65,7 @@ message ProfileResponse {
     string created_at = 6;
     string updated_at = 7;
 }
+
 
 // Profilni tahrirlash
 message EditProfileRequest {
@@ -80,7 +83,7 @@ message EditProfileResponse {
 }
 
 // Foydalanuvchilar ro'yxatini olish
-message User {
+message UsersListRequest {
     string id = 1;
     string username = 2;
     string full_name = 3;
@@ -88,14 +91,18 @@ message User {
 }
 
 message UsersListResponse {
-    repeated User users = 1;
+    repeated UsersListRequest users = 1;
     int32 total = 2;
     int32 page = 3;
     int32 limit = 4;
 }
 
 // Foydalanuvchini o'chirish
-message DeleteUserResponse {
+message DeleteUserResponse{
+    bool deleted = 1;
+}
+
+message DeleteUserRequest {
     string message = 1;
 }
 
@@ -116,15 +123,22 @@ message RefreshTokenRequest {
 message RefreshTokenResponse {
     string access_token = 1;
     string refresh_token = 2;
-    int32 expires_in = 3;
 }
 
 // Tokenni bekor qilish
+message LogoutRequest {
+    string access_token = 1;
+}
+
 message LogoutResponse {
     string message = 1;
 }
 
 // Eco-points balansini ko'rish
+message EcoPointsRequest {
+    string user_id = 1;
+}
+
 message EcoPointsResponse {
     string user_id = 1;
     int32 eco_points = 2;
@@ -146,6 +160,12 @@ message AddEcoPointsResponse {
 }
 
 // Eco-points tarixini ko'rish
+message GetEcoPointsHistoryRequest {
+    string user_id = 1;
+    int32 page = 2;
+    int32 limit = 3;
+}
+
 message EcoPointsHistoryItem {
     string id = 1;
     int32 points = 2;
