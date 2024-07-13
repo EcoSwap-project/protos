@@ -1,8 +1,29 @@
 syntax = "proto3";
 
-package eco;
+option go_package = "genproto/authentication_service";
+
+package auth_service;
 
 import "google/protobuf/empty.proto";
+
+
+// Xizmatlar (services)
+service EcoService {
+    rpc Register (RegisterRequest) returns (RegisterResponse);
+    rpc Login (LoginRequest) returns (LoginResponse);
+    rpc GetProfile (google.protobuf.Empty) returns (ProfileResponse);
+    rpc EditProfile (EditProfileRequest) returns (EditProfileResponse);
+    rpc ListUsers (google.protobuf.Empty) returns (UsersListResponse);
+    rpc DeleteUser (google.protobuf.Empty) returns (DeleteUserResponse);
+    rpc ResetPassword (ResetPasswordRequest) returns (ResetPasswordResponse);
+    rpc RefreshToken (RefreshTokenRequest) returns (RefreshTokenResponse);
+    rpc Logout (google.protobuf.Empty) returns (LogoutResponse);
+    rpc GetEcoPoints (google.protobuf.Empty) returns (EcoPointsResponse);
+    rpc AddEcoPoints (AddEcoPointsRequest) returns (AddEcoPointsResponse);
+    rpc GetEcoPointsHistory (google.protobuf.Empty) returns (EcoPointsHistoryResponse);
+}
+
+
 
 // Ro'yxatdan o'tish
 message RegisterRequest {
@@ -140,18 +161,3 @@ message EcoPointsHistoryResponse {
     int32 limit = 4;
 }
 
-// Xizmatlar (services)
-service EcoService {
-    rpc Register (RegisterRequest) returns (RegisterResponse);
-    rpc Login (LoginRequest) returns (LoginResponse);
-    rpc GetProfile (google.protobuf.Empty) returns (ProfileResponse);
-    rpc EditProfile (EditProfileRequest) returns (EditProfileResponse);
-    rpc ListUsers (google.protobuf.Empty) returns (UsersListResponse);
-    rpc DeleteUser (google.protobuf.Empty) returns (DeleteUserResponse);
-    rpc ResetPassword (ResetPasswordRequest) returns (ResetPasswordResponse);
-    rpc RefreshToken (RefreshTokenRequest) returns (RefreshTokenResponse);
-    rpc Logout (google.protobuf.Empty) returns (LogoutResponse);
-    rpc GetEcoPoints (google.protobuf.Empty) returns (EcoPointsResponse);
-    rpc AddEcoPoints (AddEcoPointsRequest) returns (AddEcoPointsResponse);
-    rpc GetEcoPointsHistory (google.protobuf.Empty) returns (EcoPointsHistoryResponse);
-}
