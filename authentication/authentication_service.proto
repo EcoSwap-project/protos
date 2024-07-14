@@ -47,9 +47,8 @@ message LoginRequest {
 }
 
 message LoginResponse {
-    string access_token = 1;
-    string refresh_token = 2;
-}
+    bool seccses = 1;
+}   
 
 // Profilni ko'rish
 message ProfilRequest{
