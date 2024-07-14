@@ -1,0 +1,405 @@
+syntax = "proto3";
+
+package eco_exchange;
+
+
+// Items
+message Item {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string category_id = 4;
+  string condition = 5;
+  repeated string swap_preference = 6;
+  string owner_id = 7;
+  string status = 8;
+ string created_at = 9;
+ string updated_at = 10;
+}
+
+message AddItemRequest {
+  string name = 1;
+  string description = 2;
+  string category_id = 3;
+  string condition = 4;
+  repeated string swap_preference = 5;
+  repeated string images = 6;
+}
+
+message AddItemResponse {
+  Item item = 1;
+}
+
+message UpdateItemRequest {
+  string id = 1;
+  string name = 2;
+  string condition = 3;
+}
+
+message UpdateItemResponse {
+  Item item = 1;
+}
+
+message DeleteItemRequest {
+  string id = 1;
+}
+
+message DeleteItemResponse {
+  string message = 1;
+}
+
+message GetItemsRequest {
+  int32 page = 1;
+  int32 limit = 2;
+}
+
+message GetItemsResponse {
+  repeated Item items = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 limit = 4;
+}
+
+message GetItemRequest {
+  string id = 1;
+}
+
+message GetItemResponse {
+  Item item = 1;
+}
+
+message SearchItemsRequest {
+  string query = 1;
+  string category = 2;
+  string condition = 3;
+  int32 page = 4;
+  int32 limit = 5;
+}
+
+message SearchItemsResponse {
+  repeated Item items = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 limit = 4;
+}
+
+// Swaps
+message Swap {
+  string id = 1;
+  string offered_item_id = 2;
+  string requested_item_id = 3;
+  string requester_id = 4;
+  string owner_id = 5;
+  string status = 6;
+  string message = 7;
+ string created_at = 8;
+ string updated_at = 9;
+}
+
+message CreateSwapRequest {
+  string offered_item_id = 1;
+  string requested_item_id = 2;
+  string message = 3;
+}
+
+message CreateSwapResponse {
+  Swap swap = 1;
+}
+
+message UpdateSwapStatusRequest {
+  string id = 1;
+  string status = 2;
+  string reason = 3;
+}
+
+message UpdateSwapStatusResponse {
+  Swap swap = 1;
+}
+
+message GetSwapsRequest {
+  string status = 1;
+  int32 page = 2;
+  int32 limit = 3;
+}
+
+message GetSwapsResponse {
+  repeated Swap swaps = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 limit = 4;
+}
+
+// Recycling Centers
+message RecyclingCenter {
+  string id = 1;
+  string name = 2;
+  string address = 3;
+  repeated string accepted_materials = 4;
+  string working_hours = 5;
+  string contact_number = 6;
+ string created_at = 7;
+ string updated_at = 8;
+}
+
+message AddRecyclingCenterRequest {
+  string name = 1;
+  string address = 2;
+  repeated string accepted_materials = 3;
+  string working_hours = 4;
+  string contact_number = 5;
+}
+
+message AddRecyclingCenterResponse {
+  RecyclingCenter center = 1;
+}
+
+message GetRecyclingCentersRequest {
+  string material = 1;
+  int32 page = 2;
+  int32 limit = 3;
+}
+
+message GetRecyclingCentersResponse {
+  repeated RecyclingCenter centers = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 limit = 4;
+}
+
+message RecyclingSubmission {
+  string id = 1;
+  string center_id = 2;
+  string user_id = 3;
+  repeated SubmissionItem items = 4;
+  int32 eco_points_earned = 5;
+ string created_at = 6;
+}
+
+message SubmissionItem {
+  string item_id = 1;
+  float weight = 2;
+  string material = 3;
+}
+
+message AddRecyclingSubmissionRequest {
+  string center_id = 1;
+  string user_id = 2;
+  repeated SubmissionItem items = 3;
+}
+
+message AddRecyclingSubmissionResponse {
+  RecyclingSubmission submission = 1;
+}
+
+// User Ratings
+message Rating {
+  string id = 1;
+  string user_id = 2;
+  string rater_id = 3;
+  float rating = 4;
+  string comment = 5;
+  string swap_id = 6;
+ string created_at = 7;
+}
+
+message AddUserRatingRequest {
+  float rating = 1;
+  string comment = 2;
+  string swap_id = 3;
+}
+
+message AddUserRatingResponse {
+  Rating rating = 1;
+}
+
+message GetUserRatingsRequest {
+  string user_id = 1;
+  int32 page = 2;
+  int32 limit = 3;
+}
+
+message GetUserRatingsResponse {
+  repeated Rating ratings = 1;
+  float average_rating = 2;
+  int32 total_ratings = 3;
+  int32 page = 4;
+  int32 limit = 5;
+}
+
+// Item Categories
+message ItemCategory {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+ string created_at = 4;
+}
+
+message AddItemCategoryRequest {
+  string name = 1;
+  string description = 2;
+}
+
+message AddItemCategoryResponse {
+  ItemCategory category = 1;
+}
+
+// Statistics
+message GetStatisticsRequest {
+  string start_date = 1;
+  string end_date = 2;
+}
+
+message GetStatisticsResponse {
+  int32 total_swaps = 1;
+  int32 total_recycled_items = 2;
+  int32 total_eco_points_earned = 3;
+  repeated TopCategory top_categories = 4;
+  repeated TopRecyclingCenter top_recycling_centers = 5;
+}
+
+message TopCategory {
+  string id = 1;
+  string name = 2;
+  int32 swap_count = 3;
+}
+
+message TopRecyclingCenter {
+  string id = 1;
+  string name = 2;
+  int32 submissions_count = 3;
+}
+
+// User Activity
+message GetUserActivityRequest {
+  string user_id = 1;
+  string start_date = 2;
+  string end_date = 3;
+}
+
+message GetUserActivityResponse {
+  string user_id = 1;
+  int32 swaps_initiated = 2;
+  int32 swaps_completed = 3;
+  int32 items_listed = 4;
+  int32 recycling_submissions = 5;
+  int32 eco_points_earned = 6;
+}
+
+// Eco Challenges
+message EcoChallenge {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+ string start_date = 4;
+ string end_date = 5;
+  int32 reward_points = 6;
+ string created_at = 7;
+}
+
+message AddEcoChallengeRequest {
+  string title = 1;
+  string description = 2;
+ string start_date = 3;
+ string end_date = 4;
+  int32 reward_points = 5;
+}
+
+message AddEcoChallengeResponse {
+  EcoChallenge challenge = 1;
+}
+
+message ParticipateEcoChallengeRequest {
+  string challenge_id = 1;
+}
+
+message ParticipateEcoChallengeResponse {
+  string challenge_id = 1;
+  string user_id = 2;
+  string status = 3;
+ string joined_at = 4;
+}
+
+message UpdateEcoChallengeProgressRequest {
+  string challenge_id = 1;
+  int32 recycled_items_count = 2;
+}
+
+message UpdateEcoChallengeProgressResponse {
+  string challenge_id = 1;
+  string user_id = 2;
+  string status = 3;
+  int32 recycled_items_count = 4;
+ string updated_at = 5;
+}
+
+// Eco Tips
+message EcoTip {
+  string id = 1;
+  string title = 2;
+  string content = 3;
+ string created_at = 4;
+}
+
+message AddEcoTipRequest {
+  string title = 1;
+  string content = 2;
+}
+
+message AddEcoTipResponse {
+  EcoTip tip = 1;
+}
+
+message GetEcoTipsRequest {
+  int32 page = 1;
+  int32 limit = 2;
+}
+
+message GetEcoTipsResponse {
+  repeated EcoTip tips = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 limit = 4;
+}
+
+// Services
+service EcoExchangeService {
+  // Items
+  rpc AddItem(AddItemRequest) returns (AddItemResponse);
+  rpc UpdateItem(UpdateItemRequest) returns (UpdateItemResponse);
+  rpc DeleteItem(DeleteItemRequest) returns (DeleteItemResponse);
+  rpc GetItems(GetItemsRequest) returns (GetItemsResponse);
+  rpc GetItem(GetItemRequest) returns (GetItemResponse);
+  rpc SearchItems(SearchItemsRequest) returns (SearchItemsResponse);
+
+  // Swaps
+  rpc CreateSwap(CreateSwapRequest) returns (CreateSwapResponse);
+  rpc UpdateSwapStatus(UpdateSwapStatusRequest) returns (UpdateSwapStatusResponse);
+  rpc GetSwaps(GetSwapsRequest) returns (GetSwapsResponse);
+
+  // Recycling Centers
+  rpc AddRecyclingCenter(AddRecyclingCenterRequest) returns (AddRecyclingCenterResponse);
+  rpc GetRecyclingCenters(GetRecyclingCentersRequest) returns (GetRecyclingCentersResponse);
+  rpc AddRecyclingSubmission(AddRecyclingSubmissionRequest) returns (AddRecyclingSubmissionResponse);
+
+  // User Ratings
+  rpc AddUserRating(AddUserRatingRequest) returns (AddUserRatingResponse);
+  rpc GetUserRatings(GetUserRatingsRequest) returns (GetUserRatingsResponse);
+
+  // Item Categories
+  rpc AddItemCategory(AddItemCategoryRequest) returns (AddItemCategoryResponse);
+
+  // Statistics
+  rpc GetStatistics(GetStatisticsRequest) returns (GetStatisticsResponse);
+
+  // User Activity
+  rpc GetUserActivity(GetUserActivityRequest) returns (GetUserActivityResponse);
+
+  // Eco Challenges
+  rpc AddEcoChallenge(AddEcoChallengeRequest) returns (AddEcoChallengeResponse);
+  rpc ParticipateEcoChallenge(ParticipateEcoChallengeRequest) returns (ParticipateEcoChallengeResponse);
+  rpc UpdateEcoChallengeProgress(UpdateEcoChallengeProgressRequest) returns (UpdateEcoChallengeProgressResponse);
+
+  // Eco Tips
+  rpc AddEcoTip(AddEcoTipRequest) returns (AddEcoTipResponse);
+  rpc GetEcoTips(GetEcoTipsRequest) returns (GetEcoTipsResponse);
+}
