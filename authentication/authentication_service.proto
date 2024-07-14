@@ -103,7 +103,7 @@ message DeleteUserResponse{
 }
 
 message DeleteUserRequest {
-    string message = 1;
+    string id = 1;
 }
 
 // Parolni tiklash
