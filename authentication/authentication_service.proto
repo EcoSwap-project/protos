@@ -170,9 +170,8 @@ message GetEcoPointsHistoryRequest {
 message EcoPointsHistoryItem {
     string id = 1;
     int32 points = 2;
-    string type = 3;
-    string reason = 4;
-    string timestamp = 5;
+    string reason = 3;
+    string timestamp = 4;
 }
 
 message EcoPointsHistoryResponse {
