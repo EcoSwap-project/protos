@@ -68,8 +68,9 @@ message ProfileResponse {
 
 // Profilni tahrirlash
 message EditProfileRequest {
-    string full_name = 1;
-    string bio = 2;
+    string id = 1;
+    string full_name = 2;
+    string bio = 3;
 }
 
 message EditProfileResponse {
