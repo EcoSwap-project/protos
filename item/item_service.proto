@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+option go_package = "genproto/item_service";
+
 package eco_exchange;
 
 
