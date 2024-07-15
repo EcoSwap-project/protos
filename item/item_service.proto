@@ -99,9 +99,13 @@ message Swap {
 }
 
 message CreateSwapRequest {
-  string offered_item_id = 1;
-  string requested_item_id = 2;
-  string message = 3;
+  string id = 1;
+  string offered_item_id = 2;
+  string requested_item_id = 3;
+  string requester_id = 4;
+  string owner_id = 5;
+  string status = 6;
+  string message = 7;
 }
 
 message CreateSwapResponse {
