@@ -319,6 +319,8 @@ message AddEcoChallengeResponse {
 
 message ParticipateEcoChallengeRequest {
   string challenge_id = 1;
+  string user_id = 2;
+  string status =3;
 }
 
 message ParticipateEcoChallengeResponse {
